@@ -1,13 +1,15 @@
+import { Platform } from "react-native";
+import Constants from 'expo-constants';
 import { router } from "expo-router";
 import {
-    Alert,
-    Image,
-    Linking,
-    StatusBar,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Alert,
+  Image,
+  Linking,
+  StatusBar,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 import { useEffect, useState } from "react";
@@ -16,19 +18,26 @@ import globalStyles from "../globalStyles";
 
 import { login } from "../../services/login";
 
-import packageJson from "../../package.json";
+import { fetchAboutCurrencies } from "../../services/controller";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SecureStore from "expo-secure-store";
+import config from "../config";
 
 const currencyLogo = require("../../assets/images/currency.png");
 
 const appLogo = require("../../assets/images/logo.png");
 
-const debug_this_ui = false;
+const debug_this_ui = true;
 
 const LoginScreen = () => {
+  const version = Constants.expoConfig?.version;
+
+  const [isAppOk, setAppOk] = useState(false);
+  const [registerURL, setRegisterURL] = useState("");
+  const [latestAppVersion, setLatestAppVersion] = useState("");
+  const [latestAppURL, setLatestAppURL] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
@@ -38,7 +47,7 @@ const LoginScreen = () => {
       console.log("index.tsx - Navigate to Register");
     }
 
-    await Linking.openURL("https://example.com/register");
+    await Linking.openURL(registerURL);
   };
 
   // TEMPORARY FUNCTIONS TO AUTO FILL CREDENTIALS
@@ -90,7 +99,7 @@ const LoginScreen = () => {
 
       Alert.alert(
         "Login Error",
-        "An error occurred during login. Please try again."
+        "An error occurred during login. Please try again.",
       );
     }
   };
@@ -110,9 +119,75 @@ const LoginScreen = () => {
     }
   };
 
+  const checkCurrencyDetails = async () => {
+    try {
+      if (debug_this_ui) {
+        console.log("index.tsx - Check Currency Details");
+      }
+
+      const result = await fetchAboutCurrencies();
+
+      if (result.status === 200) {
+        const data = await AsyncStorage.getItem("aboutCurrencies");
+        if (data) {
+          const jsonData = JSON.parse(data);
+
+          // Convert to array if it's an object, or use as-is if already an array
+          const aboutCurrencies = Array.isArray(jsonData.currencies)
+            ? jsonData.currencies
+            : Object.values(jsonData);
+
+          const thisCurrency = aboutCurrencies.find(
+            (item: any) => item.symbol === config.app_currency_symbol,
+          );
+
+          if (thisCurrency) {
+            setRegisterURL(thisCurrency.newAccountWizardURL);
+
+            const appVersion = thisCurrency.androidAppLatestVersion;
+            const appURL = thisCurrency.androidAppURL;
+
+            if (Platform.OS === "android") {
+              setLatestAppURL(appURL);
+              setLatestAppVersion(appVersion);
+            }
+
+            if (appVersion === version) {
+              setAppOk(true);
+            } else {
+              await displayAppUpdateAlert(appURL);
+            }
+          }
+        } else {
+          console.log(
+            `Currency with symbol '${config.app_currency_symbol}' not found`,
+          );
+        }
+      }
+    } catch (error) {
+      console.error("Error checking app version:", error);
+    }
+  };
+
+  const displayAppUpdateAlert = async (url : string) => {
+    Alert.alert(
+      "Update Available",
+      `A new version (${latestAppVersion}) is available. Please update the app.`,
+      [
+        {
+          text: "Update",
+          onPress: () => {
+            Linking.openURL(url);
+          },
+        },
+      ],
+    );
+  };
+
   // Fetch details on component mount
   useEffect(() => {
     displayLastLogin();
+    checkCurrencyDetails();
   }, []);
 
   return (
@@ -165,14 +240,26 @@ const LoginScreen = () => {
           >
             Create new account
           </Text>
-          <TouchableOpacity
-            style={globalStyles.roundedButton}
-            onPress={() => {
-              handleLogin();
-            }}
-          >
-            <Text>Login</Text>
-          </TouchableOpacity>
+          {isAppOk && (
+            <TouchableOpacity
+              style={globalStyles.roundedButton}
+              onPress={() => {
+                handleLogin();
+              }}
+            >
+              <Text>Login</Text>
+            </TouchableOpacity>
+          )}
+          {!isAppOk && (
+            <TouchableOpacity
+              style={globalStyles.roundedButton}
+              onPress={() => {
+                Linking.openURL(latestAppURL);
+              }}
+            >
+              <Text>Update</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
 
@@ -197,12 +284,11 @@ const LoginScreen = () => {
             <Text>Powered by</Text>
             <Image source={appLogo} style={globalStyles.small_logo_image} />
           </View>
-          <Text>Version : {packageJson.version}</Text>
+          <Text>Version : {version}</Text>
         </View>
       </View>
     </View>
   );
 };
-//<Text style={globalStyles.hyperlink} onPress={() => Linking.openURL(config.new_user_url)}
 
 export default LoginScreen;

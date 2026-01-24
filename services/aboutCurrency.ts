@@ -1,20 +1,16 @@
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 
 import config from '../app/config';
 
-export const getCurrency = async () => {
+export const getAboutCurrencies = async () => {
   try {
 
-    const url = `${config.api_base_url}/api/currency`;
-
-    const token = await SecureStore.getItemAsync('accessToken');
+    const url = `${config.api_base_url}/api/about/currencies`;
 
     const headers = {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
     };
 
     const response = await axios.get(url, {
@@ -24,28 +20,28 @@ export const getCurrency = async () => {
 
     if (response.status === 200) {
 
-      const currency =  JSON.stringify(response.data);
+      const data = JSON.stringify(response.data);
 
       if (config.debug_web_request) {
-        console.log('Currency retrieved:', currency);
-      } 
+        console.log('aboutCurrency.ts - about currencies data:', data); 
+      }
 
-      //Store Currency list
-      await AsyncStorage.setItem('currency', currency);
-
+      await AsyncStorage.setItem('aboutCurrencies', data);
+      
       return {
         status: 200,
-        message: "OK",
+        message: "OK"
       };
-    } else {
+    }
+    else {
       return {
         status: response.status,
-        message: "Error retrieving user details"
+        message: "Error retrieving about currencies"
       };
     }
 
   } catch (error) {
-      console.error('User detail failed:', error);
+      console.error('Retrieving about currencies failed:', error);
       throw error;
   }
 };

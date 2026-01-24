@@ -9,6 +9,7 @@ import { logout, refreshAccessToken } from "./login";
 import { send } from "./send";
 import { getTransaction } from "./transaction";
 import { getUserDetails } from "./userDetail";
+import { getAboutCurrencies } from "./aboutCurrency";
 
 const debug_controller = false;
 
@@ -247,3 +248,13 @@ export const pay = async (account: string, amount: number) => {
     return result;
   }
 };
+
+export const fetchAboutCurrencies = async () => {
+  if (debug_controller) {
+    console.log("Controller - fetchAboutCurrencies called");
+  }
+
+  let result = await getAboutCurrencies();
+
+  return result;
+}
