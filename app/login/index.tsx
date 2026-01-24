@@ -29,7 +29,7 @@ const currencyLogo = require("../../assets/images/currency.png");
 
 const appLogo = require("../../assets/images/logo.png");
 
-const debug_this_ui = true;
+const debug_this_ui = false
 
 const LoginScreen = () => {
   const version = Constants.expoConfig?.version;

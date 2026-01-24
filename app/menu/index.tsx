@@ -23,7 +23,7 @@ import globalStyles from "../globalStyles";
 
 const currencyLogo = require("../../assets/images/currency.png");
 
-const debug_this_ui = true;
+const debug_this_ui = false
 
 const MenuScreen = () => {
   const button_size = 40;

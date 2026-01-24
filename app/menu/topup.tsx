@@ -1,26 +1,51 @@
-import * as Clipboard from 'expo-clipboard';
+import * as Clipboard from "expo-clipboard";
 import React, { useEffect, useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Linking, Text, TouchableOpacity, View } from "react-native";
 
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import globalStyles from "../globalStyles";
+import config from "../config";
 
 const msg =
   "The simple way to top up your account is to perfrom a bank transfer with your account number in the communication. This transaction will be managed in 24 hrs.";
 
-const bank = "BE88 5231 4071 4541";
+const bank = "BE12 1234 1234 1234";
 
 const TopUpScreen = () => {
   const [accountNumber, setAccountNumber] = useState<string>("");
+  const [topOffURL, setTopOffURL] = useState<string>("");
 
   const fetchDetails = async () => {
     const data = await AsyncStorage.getItem("account");
-
     if (data) {
       const accountData = JSON.parse(data);
 
       setAccountNumber(accountData.number);
+    }
+
+    const currency = await AsyncStorage.getItem("currency");
+    if (currency) {
+      const jsonData = JSON.parse(currency);
+
+      const currencyData = jsonData.find(
+        (item: any) => item.symbol === config.app_currency_symbol,
+      );
+
+      if (currencyData) {
+        const url =
+          currencyData.topOffWizardURL + `?accountNumber=${accountNumber}`;
+
+        setTopOffURL(url);
+      }
+    }
+  };
+
+  const topOffLink = async () => {
+    if (topOffURL) {
+      await Linking.openURL(topOffURL);
+    } else {
+      console.log("Top Off URL not available");
     }
   };
 
@@ -33,24 +58,40 @@ const TopUpScreen = () => {
     <View style={globalStyles.mainContainer}>
       <Text style={globalStyles.info_label}>{msg}</Text>
 
-      <View style= {globalStyles.columnContainer}>
+      <View style={globalStyles.columnContainer}>
         <Text style={globalStyles.info_label}>Bank Account : {bank}</Text>
-        <TouchableOpacity style={globalStyles.smallButton} onPress={() => {
-            Clipboard.setStringAsync(bank)
-        }}>
+        <TouchableOpacity
+          style={globalStyles.smallButton}
+          onPress={() => {
+            Clipboard.setStringAsync(bank);
+          }}
+        >
           <MaterialIcons name="content-copy" color="black" />
         </TouchableOpacity>
       </View>
 
-      <View style= {globalStyles.columnContainer}>
+      <View style={globalStyles.columnContainer}>
         <Text style={globalStyles.info_label}>
           Communication : {accountNumber}
         </Text>
-        <TouchableOpacity style={globalStyles.smallButton} onPress={() => {
-            Clipboard.setStringAsync(accountNumber)
-        }}>
+        <TouchableOpacity
+          style={globalStyles.smallButton}
+          onPress={() => {
+            Clipboard.setStringAsync(accountNumber);
+          }}
+        >
           <MaterialIcons name="content-copy" color="black" />
         </TouchableOpacity>
+      </View>
+      <View style={globalStyles.columnContainer}>
+        <Text
+          style={globalStyles.hyperlink}
+          onPress={() => {
+            topOffLink();
+          }}
+        >
+          Top Off
+        </Text>
       </View>
     </View>
   );
