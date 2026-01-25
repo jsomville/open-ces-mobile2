@@ -53,14 +53,14 @@ Git Hub for the back-end system is : https://github.com/jsomville/open-CES
    eas build:configure
    ```
 
+   Build production (preview)
+   ```bash
+   eas build --platform android --profile preview
+   ```
+
    Build production (default)
    ```bash
    eas build --platform android
-   ```
-
-   Build production (preview)
-   ```bash
-   eas build --platform android -- profile preview
    ```
 
 ## DEV Help to resolve dependencies
