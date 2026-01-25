@@ -23,14 +23,22 @@ Git Hub for the back-end system is : https://github.com/jsomville/open-CES
 
  - Login
  - Logout
- - Account info, last transactions
- - Passed transactions
+ - Link to Register new user
+ - Main account information
+ - Transfer using a QR code
+ - Transfer using email
+ - Transfer using phone number
+ - Show my QR code
+ - Pay by scanning a QR code
+ - Display user informations
+ - Diplay past transactions
 
 ## Build Android app
 
 ### Pre-requisite
    Have a valid expo account
 
+   Install the eas cli
    ```bash
    npm install -g eas-cli
    ```
