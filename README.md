@@ -1,6 +1,10 @@
-# Welcome to your Expo app 👋
+# Welcome to Open-CES mobile 👋
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This project is an [Expo](https://expo.dev) project for a mobile app compatible with Open-CES.
+
+For more information about the project, look at our web site http://open-ces.org/
+
+Git Hub for the back-end system is : https://github.com/jsomville/open-CES
 
 ## Get started
 
@@ -15,36 +19,53 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    ```bash
    npx expo start
    ```
+## Features
 
-In the output, you'll find options to open the app in a
+ - Login
+ - Logout
+ - Account info, last transactions
+ - Passed transactions
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Build Android app
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### Pre-requisite
+   Have a valid expo account
 
-## Get a fresh project
+   ```bash
+   npm install -g eas-cli
+   ```
+### Build
+   Login to expo
+   ```bash
+   eas login
+   ```
+   
+   Build configure if required
+   ```bash
+   eas build:configure
+   ```
 
-When you're ready, run:
+   Build production (default)
+   ```bash
+   eas build --platform android
+   ```
 
-```bash
-npm run reset-project
-```
+   Build production (preview)
+   ```bash
+   eas build --platform android -- profile preview
+   ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## DEV Help to resolve dependencies
+   To check dependency
+   ```bash
+   npx depcheck
+   ```
 
-## Learn more
+   Delete line in package.json
 
-To learn more about developing your project with Expo, look at the following resources:
+   Repackages-install 
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+   ```bash
+   npm install
+   ```
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
