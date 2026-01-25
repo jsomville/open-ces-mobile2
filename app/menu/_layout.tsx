@@ -66,6 +66,13 @@ const MenuLayout = () => {
           headerShown: true,
         }}
       />
+       <Stack.Screen
+        name="linkThisApp"
+        options={{
+          title: "Link to this App",
+          headerShown: true,
+        }}
+      />
     </Stack>
   );
 };

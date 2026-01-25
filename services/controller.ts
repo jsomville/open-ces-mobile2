@@ -23,7 +23,7 @@ export const doRefreshAccessToken = async () => {
   if (result === 403) {
     if (debug_controller) {
       console.log(
-        "Controller - doRefreshAccessToken - Refresh token expired, logging out..."
+        "Controller - doRefreshAccessToken - Refresh token expired, logging out...",
       );
     }
 
@@ -60,7 +60,7 @@ export const fetchUserDetails = async () => {
       const userData = JSON.parse(data);
 
       const account = userData.accounts.find(
-        (acc: any) => acc.currencyId === config.app_currency_id
+        (acc: any) => acc.currencyId === config.app_currency_id,
       );
 
       if (debug_controller) {
@@ -74,7 +74,7 @@ export const fetchUserDetails = async () => {
         if (debug_controller) {
           console.log(
             "Controller - fetchUserAccount - Account data:",
-            accountData
+            accountData,
           );
         }
 
@@ -169,7 +169,7 @@ export const sendTo = async (account: string, amount: number) => {
         if (debug_controller) {
           console.log(
             "Controller - sendTo - Send failed with status",
-            result.status
+            result.status,
           );
         }
 
@@ -257,4 +257,34 @@ export const fetchAboutCurrencies = async () => {
   let result = await getAboutCurrencies();
 
   return result;
-}
+};
+
+export const getCurrentAboutCurrency = async () => {
+  if (debug_controller) {
+    console.log("Controller - getCurrentAboutCurrency");
+  }
+
+  let data = await AsyncStorage.getItem("aboutCurrencies");
+  if (!data) {
+    await fetchAboutCurrencies();
+
+    data = await AsyncStorage.getItem("aboutCurrencies");
+  }
+
+  if (data) {
+    const jsonData = JSON.parse(data);
+
+    // Convert to array if it's an object, or use as-is if already an array
+    const aboutCurrencies = Array.isArray(jsonData.currencies)
+      ? jsonData.currencies
+      : Object.values(jsonData);
+
+    const thisCurrency = aboutCurrencies.find(
+      (item: any) => item.symbol === config.app_currency_symbol,
+    );
+
+    return thisCurrency;
+  }
+
+  return null;
+};

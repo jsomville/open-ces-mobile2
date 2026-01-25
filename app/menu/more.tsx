@@ -48,13 +48,28 @@ const MoreScreen = () => {
           </TouchableOpacity>
           <Text>User Info</Text>
         </View>
-
         <View style={globalStyles.buttonContainer}>
           <TouchableOpacity
             style={globalStyles.actionButton}
             onPress={() => {
               if (debug_this_ui) {
-                console.log("index.tsx - Menu - Logout");
+                console.log("more.tsx - Menu - Link this app");
+              }
+              router.push("/menu/linkThisApp");
+            }}
+          >
+            <MaterialIcons name="link" color="black" size={button_size} />
+          </TouchableOpacity>
+          <Text>Link this app</Text>
+        </View>
+      </View>
+      <View style={globalStyles.actionButtonContainer}>
+        <View style={globalStyles.buttonContainer}>
+          <TouchableOpacity
+            style={globalStyles.actionButton}
+            onPress={() => {
+              if (debug_this_ui) {
+                console.log("more.tsx - Menu - Logout");
               }
               performLogout();
             }}
