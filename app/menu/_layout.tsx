@@ -25,7 +25,7 @@ const MenuLayout = () => {
         }}
       />
       <Stack.Screen
-        name="receive"
+        name="recieve"
         options={{
           title: "Receive",
           headerShown: true,

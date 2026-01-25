@@ -8,36 +8,50 @@ import { pay } from "../../services/controller";
 
 const currencyLogo = require("../../assets/images/currency.png");
 
-const debug_this_ui = false;
+const debug_this_ui = true;
 
 const PayScreen = () => {
   const [amount, setAmount] = useState("0.00");
   const [account, setAccount] = useState("123-4567-89001");
 
   const fetchDetails = async () => {
-    // Account data
-    const data = await AsyncStorage.getItem("lastScannedData");
-    if (data) {
-      const scannedData = JSON.parse(data);
+    try {
+      // Account data
+      const data = await AsyncStorage.getItem("lastScannedData");
+      if (data) {
+        if (debug_this_ui) {
+          console.log("pay.tsx - raw data:", data);
+          console.log("pay.tsx - data type:", typeof data);
+        }
 
-      if (debug_this_ui) {
-        console.log("pay.tsx - scanned data parsed : ", scannedData);
-      }
+        const scannedData = JSON.parse(data);
+        if (debug_this_ui) {
+          console.log("pay.tsx - parsed scanned data:", scannedData);
+          console.log("pay.tsx - scanned data type:", typeof scannedData);
+        }
 
-      if (scannedData.number) {
-        setAccount(scannedData.number);
+           const scannedData2 = JSON.parse(data);
+        if (debug_this_ui) {
+          console.log("pay.tsx - parsed scanned data:", scannedData2);
+          console.log("pay.tsx - scanned data type:", typeof scannedData2 );
+        } 
+
+        if (scannedData2.number) {
+          setAccount(scannedData2.number);
+        }
+        if (scannedData2.amount) {
+          setAmount(scannedData2.amount.toString());
+        }
       }
-      if (scannedData.amount && scannedData.amount > 0) {
-        setAmount(scannedData.amount.toString());
-      }
+    } catch (error) {
+      console.error("pay.tsx - Error fetching scanned data:", error);
     }
   };
 
   const payAction = async () => {
-
     if (debug_this_ui) {
-        console.log("pay.tsx - Paying", amount, "to", account);
-      }
+      console.log("pay.tsx - Paying", amount, "to", account);
+    }
 
     const result = await pay(account, parseFloat(amount));
   };

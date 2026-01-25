@@ -152,7 +152,7 @@ const MenuScreen = () => {
                 if (debug_this_ui) {
                   console.log("index.tsx - Menu - Go to Receive Screen");
                 }
-                router.push("/menu/receive");
+                router.push("/menu/recieve");
               }}
             >
               <MaterialIcons

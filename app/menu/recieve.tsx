@@ -6,24 +6,33 @@ import globalStyles from "../globalStyles";
 
 const currencyLogo = require("../../assets/images/currency.png");
 
-const debug_this_ui = false;
+const debug_this_ui = true;
 
-const RecieveScreen = () => {
+const ReceiveScreen = () => {
   const [qrValue, setQrValue] = useState("initial-value");
   const [amount, setAmount] = useState("0.00");
 
   const updateQRCode = async () => {
     if (debug_this_ui) {
-      console.log("recieve.tsx - updating QR code");
+      console.log("receive.tsx - updating QR code");
     }
 
     const data = await AsyncStorage.getItem("account");
     if (data) {
       const accountData = JSON.parse(data);
 
+      //Validate the amount
+      const numericAmount = parseFloat(amount);
+      if (isNaN(numericAmount) || numericAmount < 0) {
+        if (debug_this_ui) {
+          console.log("receive.tsx - Invalid amount:", amount);
+        }
+        return;
+      }
+
       const dataToEncode = {
         number: accountData.number,
-        amount: parseFloat(amount),
+        amount: numericAmount,
         description: "payment",
       };
 
@@ -32,9 +41,9 @@ const RecieveScreen = () => {
   };
 
   // Fetch details on component mount
-  useEffect(() => {
+  /*useEffect(() => {
     updateQRCode();
-  }, []);
+  }, []);*/
 
   // Update QR code when amount changes
   useEffect(() => {
@@ -60,7 +69,7 @@ const RecieveScreen = () => {
       </View>
       <View style={{ height: 20 }} />
       <QRCode
-        value={JSON.stringify(qrValue)}
+        value={qrValue}
         size={250}
         color="black"
         backgroundColor="white"
@@ -81,4 +90,4 @@ const RecieveScreen = () => {
   );
 };
 
-export default RecieveScreen;
+export default ReceiveScreen;
