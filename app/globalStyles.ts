@@ -11,14 +11,14 @@ const globalStyles = StyleSheet.create({
     alignItems: "center",
   },
   scrollViewContainer: {
-    padding: 20,
+    padding: 10,
     marginTop: 25,
     backgroundColor: config.backgroundColor,
     flex: 1,
   },
   mainContainer: {
-    padding: 20,
-    marginTop: 0,
+    padding: 10,
+    marginTop: 5,
     backgroundColor: config.backgroundColor,
     flex: 1,
     justifyContent: "flex-start",
@@ -65,13 +65,14 @@ const globalStyles = StyleSheet.create({
   transactionLogContainer: {
     width: '100%',
     flex: 1,
-    marginTop: 10,
+    marginTop: 5,
+    marginBottom: 5,
   },
   transactionLogHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 10,
+    marginLeft: 10,
   },
   balanceContainer: {
     flexDirection: "row",
@@ -88,7 +89,8 @@ const globalStyles = StyleSheet.create({
   },
   buttonContainer: {
     alignItems: "center",
-    padding: 5,
+    paddingHorizontal: 15,
+    paddingVertical: 5,
     alignSelf: 'center',
     justifyContent: "center",
   },
@@ -160,7 +162,7 @@ const globalStyles = StyleSheet.create({
     margin: 10,
     backgroundColor: config.primaryColor,
     borderRadius: 5,
-    padding: 10,
+    padding: 0,
     fontWeight: "bold",
   },
   activeTabButton: {
@@ -171,7 +173,8 @@ const globalStyles = StyleSheet.create({
     fontWeight: "bold",
   },
   actionButton: {
-    margin: 10,
+    marginHorizontal: 10,
+    marginVertical: 2,
     backgroundColor: config.primaryColor,
     borderRadius: 20,
     padding: 10,
@@ -247,7 +250,7 @@ const globalStyles = StyleSheet.create({
   transactionRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingVertical: 8,
+    paddingVertical: 5,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
   },
@@ -257,6 +260,7 @@ const globalStyles = StyleSheet.create({
   transactionDate: {
     flex: 1,
     alignItems: "center", // Center-align day and month
+    justifyContent: "center", // Vertically center the amount
   },
   transactionDay: {
     fontSize: 18,
@@ -301,7 +305,7 @@ const globalStyles = StyleSheet.create({
   },
   floatingButton: {
     position: 'absolute',
-    bottom: 40,
+    bottom: 50,
     left: '50%',
     marginLeft: -50,
     backgroundColor: config.primaryColor,

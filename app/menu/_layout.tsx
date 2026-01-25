@@ -1,4 +1,4 @@
-import { Stack } from 'expo-router';
+import { Stack } from "expo-router";
 
 const MenuLayout = () => {
   return (
@@ -38,7 +38,7 @@ const MenuLayout = () => {
           headerShown: true,
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="user"
         options={{
           title: "User",
@@ -52,10 +52,17 @@ const MenuLayout = () => {
           headerShown: true,
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="topup"
         options={{
           title: "Top-up",
+          headerShown: true,
+        }}
+      />
+      <Stack.Screen
+        name="more"
+        options={{
+          title: "More",
           headerShown: true,
         }}
       />

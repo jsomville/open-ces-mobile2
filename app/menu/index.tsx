@@ -23,11 +23,11 @@ import globalStyles from "../globalStyles";
 
 const currencyLogo = require("../../assets/images/currency.png");
 
-const debug_this_ui = false
+const debug_this_ui = false;
+
+const button_size = 40;
 
 const MenuScreen = () => {
-  const button_size = 40;
-
   const [userName, setUserName] = useState("Default User");
   const [accountBalance, setAccountBalance] = useState(0.0);
 
@@ -74,7 +74,7 @@ const MenuScreen = () => {
             "menu.tsx - account info : ",
             accountData.number,
             "balance :",
-            accountData.balance
+            accountData.balance,
           );
         }
 
@@ -110,32 +110,8 @@ const MenuScreen = () => {
       >
         <View style={globalStyles.menuHeaderContainer}>
           <View style={globalStyles.columnContainer}>
-            <View style={globalStyles.leftColumn}>
-              <TouchableOpacity
-                onPress={() => {
-                  if (debug_this_ui) {
-                    console.log("index.tsx - Menu - Go to User Info Screen");
-                  }
-                  router.push("/menu/user");
-                }}
-              >
-                <MaterialIcons name="person" color="black" size={button_size} />
-              </TouchableOpacity>
-            </View>
             <View style={globalStyles.middleColumn}>
               <Image source={currencyLogo} style={globalStyles.menu_image} />
-            </View>
-            <View style={globalStyles.rightColumn}>
-              <TouchableOpacity
-                onPress={() => {
-                  if (debug_this_ui) {
-                    console.log("index.tsx - Menu - Logout");
-                  }
-                  performLogout();
-                }}
-              >
-                <MaterialIcons name="logout" color="black" size={button_size} />
-              </TouchableOpacity>
             </View>
           </View>
           <View style={globalStyles.balanceContainer}>
@@ -169,8 +145,6 @@ const MenuScreen = () => {
             <Text>Transfer</Text>
           </View>
 
-         
-
           <View style={globalStyles.buttonContainer}>
             <TouchableOpacity
               style={globalStyles.actionButton}
@@ -189,33 +163,11 @@ const MenuScreen = () => {
             </TouchableOpacity>
             <Text>Receive</Text>
           </View>
-
-           <View style={globalStyles.buttonContainer}>
-            <TouchableOpacity
-              style={globalStyles.actionButton}
-              onPress={() => {
-                if (debug_this_ui) {
-                  console.log("index.tsx - Menu - Go to Top Up Screen");
-                }
-                router.push("/menu/topup");
-              }}
-            >
-              <MaterialIcons
-                name="add-circle"
-                color="black"
-                size={button_size}
-              />
-            </TouchableOpacity>
-            <Text>Top-up</Text>
-          </View>
-
           <View style={globalStyles.buttonContainer}>
             <TouchableOpacity
               style={globalStyles.actionButton}
               onPress={() => {
-                 if (debug_this_ui) {
-                  console.log("index.tsx - Menu - More");
-                }
+                router.push("/menu/more");
               }}
             >
               <MaterialCommunityIcons
@@ -244,7 +196,7 @@ const MenuScreen = () => {
                 router.push("/menu/transactions");
               }}
             >
-              <Text>View All</Text>
+              <MaterialIcons name="receipt-long" size={18} color="black" />
             </TouchableOpacity>
           </View>
 
