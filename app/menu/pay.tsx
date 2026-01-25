@@ -8,7 +8,7 @@ import { pay } from "../../services/controller";
 
 const currencyLogo = require("../../assets/images/currency.png");
 
-const debug_this_ui = true;
+const debug_this_ui = false;
 
 const PayScreen = () => {
   const [amount, setAmount] = useState("0.00");

@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Button, Text, View } from "react-native";
 import globalStyles from "../globalStyles";
 
-const debug_this_ui = true;
+const debug_this_ui = false;
 
 const ScanScreen = () => {
   const [permission, requestPermission] = useCameraPermissions();
