@@ -162,7 +162,7 @@ const globalStyles = StyleSheet.create({
     margin: 10,
     backgroundColor: config.primaryColor,
     borderRadius: 5,
-    padding: 0,
+    padding: 10,
     fontWeight: "bold",
   },
   activeTabButton: {

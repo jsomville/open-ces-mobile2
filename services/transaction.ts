@@ -6,9 +6,10 @@ import config from '../app/config';
 
 export const getTransaction = async () => {
   try {
-
-    console.log('get transactions requested');
-
+    if (config.debug_web_request) {
+      console.log('get transactions requested');
+    }
+    
     // get the selected account
     const data = await AsyncStorage.getItem('account');
     if (data) {

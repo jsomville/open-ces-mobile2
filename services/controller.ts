@@ -131,9 +131,11 @@ export const performLogout = async () => {
     console.log("Controller - performLogout - logout result:", result);
   }
 
-  // Clear Data
+  // Clear Secure store data
   await SecureStore.deleteItemAsync("accessToken");
   await SecureStore.deleteItemAsync("refreshToken");
+
+  //Clear AsyncStorage data
   await AsyncStorage.clear();
 
   router.replace("/login");

@@ -1,5 +1,5 @@
 import { Platform } from "react-native";
-import Constants from 'expo-constants';
+import Constants from "expo-constants";
 import { router } from "expo-router";
 import {
   Alert,
@@ -18,18 +18,20 @@ import globalStyles from "../globalStyles";
 
 import { login } from "../../services/login";
 
-import { fetchAboutCurrencies } from "../../services/controller";
+import {
+  fetchAboutCurrencies,
+  getCurrentAboutCurrency,
+} from "../../services/controller";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SecureStore from "expo-secure-store";
-import config from "../config";
 
 const currencyLogo = require("../../assets/images/currency.png");
 
 const appLogo = require("../../assets/images/logo.png");
 
-const debug_this_ui = false
+const debug_this_ui = false;
 
 const LoginScreen = () => {
   const version = Constants.expoConfig?.version;
@@ -125,43 +127,29 @@ const LoginScreen = () => {
         console.log("index.tsx - Check Currency Details");
       }
 
-      const result = await fetchAboutCurrencies();
+      //Make sure to refresh Currency About
+      await fetchAboutCurrencies();
 
-      if (result.status === 200) {
-        const data = await AsyncStorage.getItem("aboutCurrencies");
-        if (data) {
-          const jsonData = JSON.parse(data);
+      const thisCurrency = await getCurrentAboutCurrency();
+      if (debug_this_ui){
+        console.log("index.tsx - thisCurrency fetched", thisCurrency);
+      }
 
-          // Convert to array if it's an object, or use as-is if already an array
-          const aboutCurrencies = Array.isArray(jsonData.currencies)
-            ? jsonData.currencies
-            : Object.values(jsonData);
+      if (thisCurrency) {
+        setRegisterURL(thisCurrency.newAccountWizardURL);
 
-          const thisCurrency = aboutCurrencies.find(
-            (item: any) => item.symbol === config.app_currency_symbol,
-          );
+        const appVersion = thisCurrency.androidAppLatestVersion;
+        const appURL = thisCurrency.androidAppURL;
 
-          if (thisCurrency) {
-            setRegisterURL(thisCurrency.newAccountWizardURL);
+        if (Platform.OS === "android") {
+          setLatestAppURL(appURL);
+          setLatestAppVersion(appVersion);
+        }
 
-            const appVersion = thisCurrency.androidAppLatestVersion;
-            const appURL = thisCurrency.androidAppURL;
-
-            if (Platform.OS === "android") {
-              setLatestAppURL(appURL);
-              setLatestAppVersion(appVersion);
-            }
-
-            if (appVersion === version) {
-              setAppOk(true);
-            } else {
-              await displayAppUpdateAlert(appURL);
-            }
-          }
+        if (appVersion === version) {
+          setAppOk(true);
         } else {
-          console.log(
-            `Currency with symbol '${config.app_currency_symbol}' not found`,
-          );
+          await displayAppUpdateAlert(appURL, appVersion);
         }
       }
     } catch (error) {
@@ -169,10 +157,10 @@ const LoginScreen = () => {
     }
   };
 
-  const displayAppUpdateAlert = async (url : string) => {
+  const displayAppUpdateAlert = async (url: string, version:string) => {
     Alert.alert(
       "Update Available",
-      `A new version (${latestAppVersion}) is available. Please update the app.`,
+      `A new version (${version}) is available. Please update the app.`,
       [
         {
           text: "Update",

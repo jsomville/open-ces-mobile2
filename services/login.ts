@@ -6,7 +6,9 @@ import * as SecureStore from "expo-secure-store";
 
 export const login = async (username: string, password: string) => {
   try {
-    console.log("Attempting login for user:", username);
+    if (config.debug_web_request) {
+      console.log("login request");
+    }
 
     const url = `${config.api_base_url}/api/idp/login`;
     const headers = {
@@ -63,14 +65,10 @@ export const logout = async () => {
     const payload = {};
 
     // Actual call
-    const response = await axios.post(
-      url,
-      payload,
-      {
-        headers,
-        validateStatus: (status) => status < 500,
-      }
-    );
+    const response = await axios.post(url, payload, {
+      headers,
+      validateStatus: (status) => status < 500,
+    });
 
     return {
       status: response.status,
