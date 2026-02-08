@@ -12,40 +12,61 @@ const msg =
 
 const bank = "BE12 1234 1234 1234";
 
+const debug_this_ui = true;
+
 const TopUpScreen = () => {
   const [accountNumber, setAccountNumber] = useState<string>("");
-  const [topOffURL, setTopOffURL] = useState<string>("");
+  const [topUpURL, setTopUpURL] = useState<string>("");
 
   const fetchDetails = async () => {
+    if (debug_this_ui) {
+      console.log("topup.tsx - fetch detail");
+    }
+
     const data = await AsyncStorage.getItem("account");
     if (data) {
       const accountData = JSON.parse(data);
 
-      setAccountNumber(accountData.number);
-    }
+      if (debug_this_ui) {
+        console.log("topup.tsx - account info", accountData);
+      }
 
+      setAccountNumber(accountData.number);
+
+      await setUrL(accountData.number);
+    }
+  };
+
+  const setUrL = async (accountNumber: string) => {
     const currency = await AsyncStorage.getItem("currency");
     if (currency) {
       const jsonData = JSON.parse(currency);
+
+      if (debug_this_ui) {
+        console.log("topup.tsx - currency info", jsonData);
+      }
 
       const currencyData = jsonData.find(
         (item: any) => item.symbol === config.app_currency_symbol,
       );
 
       if (currencyData) {
-        const url =
-          currencyData.topOffWizardURL + `?accountNumber=${accountNumber}`;
+        const url = currencyData.topOffWizardURL + accountNumber;
 
-        setTopOffURL(url);
+        if (debug_this_ui) {
+          console.log("topup.tsx - top Up URL", url);
+        }
+
+        setTopUpURL(url);
       }
     }
   };
 
-  const topOffLink = async () => {
-    if (topOffURL) {
-      await Linking.openURL(topOffURL);
+  const topUpLink = async () => {
+    if (topUpURL) {
+      await Linking.openURL(topUpURL);
     } else {
-      console.log("Top Off URL not available");
+      console.log("Top Up URL not available");
     }
   };
 
@@ -87,10 +108,10 @@ const TopUpScreen = () => {
         <Text
           style={globalStyles.hyperlink}
           onPress={() => {
-            topOffLink();
+            topUpLink();
           }}
         >
-          Top Off
+          Top-Up
         </Text>
       </View>
     </View>
