@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import Checkbox from "expo-checkbox";
 
 import { useEffect, useState } from "react";
 
@@ -43,6 +44,7 @@ const LoginScreen = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [savePassword, setSavePassword] = useState(false); // State to toggle save password
 
   const register = async () => {
     if (debug_this_ui) {
@@ -84,8 +86,16 @@ const LoginScreen = () => {
       const result = await login(username, password);
 
       if (result.status === 200) {
+        
         // Clear sync storage
         await AsyncStorage.clear();
+
+        if (savePassword) {
+          await SecureStore.setItemAsync("lastPassword", password);
+        } else {
+          await SecureStore.deleteItemAsync("lastPassword");
+        }
+
         if (debug_this_ui) {
           console.log("index.tsx - Login Successful");
         }
@@ -116,6 +126,13 @@ const LoginScreen = () => {
       if (lastLogin) {
         setUsername(lastLogin);
       }
+
+      const lastPassword = await SecureStore.getItemAsync("lastPassword");
+      if (lastPassword) {
+        setPassword(lastPassword);
+        setSavePassword(true);
+      }
+
     } catch (error) {
       console.error("Error retrieving last login:", error);
     }
@@ -131,7 +148,7 @@ const LoginScreen = () => {
       await fetchAboutCurrencies();
 
       const thisCurrency = await getCurrentAboutCurrency();
-      if (debug_this_ui){
+      if (debug_this_ui) {
         console.log("index.tsx - thisCurrency fetched", thisCurrency);
       }
 
@@ -157,7 +174,7 @@ const LoginScreen = () => {
     }
   };
 
-  const displayAppUpdateAlert = async (url: string, version:string) => {
+  const displayAppUpdateAlert = async (url: string, version: string) => {
     Alert.alert(
       "Update Available",
       `A new version (${version}) is available. Please update the app.`,
@@ -215,6 +232,15 @@ const LoginScreen = () => {
                   size={24}
                 />
               </TouchableOpacity>
+            </View>
+          </View>
+          <View style={{ alignItems: 'center' }}>
+            <View style={globalStyles.checkBoxContainer}>
+              <Checkbox
+                value={savePassword}
+                onValueChange={(newValue) => setSavePassword(newValue)}
+              />
+              <Text style={globalStyles.checkBoxText}>Save password</Text>
             </View>
           </View>
         </View>

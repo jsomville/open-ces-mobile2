@@ -26,44 +26,44 @@ const globalStyles = StyleSheet.create({
   },
   footerContainer: {
     flex: 1,
-    backgroundColor: 'darkGray',
-    justifyContent: 'flex-end',
+    backgroundColor: "darkGray",
+    justifyContent: "flex-end",
     marginBottom: 20,
   },
-  
+
   menuHeaderContainer: {
     flexDirection: "column",
     alignItems: "center",
     padding: 5,
     margin: 5,
-    alignSelf: 'center',
+    alignSelf: "center",
     backgroundColor: config.secondaryColor,
     borderRadius: 20,
   },
   columnContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     padding: 5,
     margin: 5,
   },
   rowContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-between",
     padding: 5,
     margin: 5,
   },
   rowContainerWbackground: {
     backgroundColor: config.secondaryColor,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-between",
     padding: 5,
     margin: 5,
   },
   transactionLogContainer: {
-    width: '100%',
+    width: "100%",
     flex: 1,
     marginTop: 5,
     marginBottom: 5,
@@ -78,40 +78,40 @@ const globalStyles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: 5,
-    alignSelf: 'center'
+    alignSelf: "center",
   },
   actionButtonContainer: {
     flexDirection: "row",
     alignItems: "center",
     padding: 5,
     margin: 5,
-    alignSelf: 'center'
+    alignSelf: "center",
   },
   buttonContainer: {
     alignItems: "center",
     paddingHorizontal: 15,
     paddingVertical: 5,
-    alignSelf: 'center',
+    alignSelf: "center",
     justifyContent: "center",
   },
   leftColumn: {
     flex: 1,
-    alignItems: 'flex-start',
-    alignSelf: 'flex-start',
+    alignItems: "flex-start",
+    alignSelf: "flex-start",
   },
   middleColumn: {
     flex: 2,
-    alignItems: 'center',
+    alignItems: "center",
   },
   rightColumn: {
     flex: 1,
-    alignItems: 'flex-end',
-    alignSelf: 'flex-start',
+    alignItems: "flex-end",
+    alignSelf: "flex-start",
   },
   accountNumber: {
     fontSize: 18,
     marginBottom: 5,
-    alignSelf: 'center'
+    alignSelf: "center",
   },
   balanceText: {
     fontSize: 24,
@@ -167,7 +167,7 @@ const globalStyles = StyleSheet.create({
   },
   activeTabButton: {
     margin: 10,
-    backgroundColor: '#007AFF',
+    backgroundColor: "#007AFF",
     borderRadius: 5,
     padding: 10,
     fontWeight: "bold",
@@ -193,7 +193,7 @@ const globalStyles = StyleSheet.create({
   eyeIcon: {
     justifyContent: "center",
     alignItems: "center",
-    color: 'gray',
+    color: "gray",
     padding: 2,
     marginBottom: 16,
   },
@@ -217,7 +217,7 @@ const globalStyles = StyleSheet.create({
   },
   amount_input_text: {
     borderWidth: 1,
-    borderColor: '#aaa',
+    borderColor: "#aaa",
     padding: 10,
     width: 100,
     borderRadius: 5,
@@ -232,20 +232,24 @@ const globalStyles = StyleSheet.create({
     color: "#333",
   },
   hyperlink: {
-    color: 'blue',
-    textDecorationLine: 'underline',
+    color: "blue",
+    textDecorationLine: "underline",
     margin: 10,
   },
   picker: {
     height: 50,
     width: 50,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
   },
   selectedText: {
     marginTop: 16,
     fontSize: 16,
-    color: '#333',
+    color: "#333",
+  },
+  checkBoxContainer: { flexDirection: "row", alignItems: "center" },
+  checkBoxText: {
+    marginLeft: 8,
   },
   transactionRow: {
     flexDirection: "row",
@@ -268,7 +272,7 @@ const globalStyles = StyleSheet.create({
   },
   transactionMonth: {
     fontSize: 14,
-    color: 'gray',
+    color: "gray",
   },
   transactionType: {
     flex: 2,
@@ -294,27 +298,27 @@ const globalStyles = StyleSheet.create({
     paddingVertical: 4,
     paddingHorizontal: 8,
     borderRadius: 4,
-    margin: 5
+    margin: 5,
   },
   smallTestButton: {
-    backgroundColor: 'red',
+    backgroundColor: "red",
     paddingVertical: 4,
     paddingHorizontal: 8,
     borderRadius: 4,
     margin: 5,
   },
   floatingButton: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 50,
-    left: '50%',
+    left: "50%",
     marginLeft: -50,
     backgroundColor: config.primaryColor,
     width: 100,
     height: 100,
     borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 3,
@@ -322,7 +326,7 @@ const globalStyles = StyleSheet.create({
   },
   camera: {
     flex: 1,
-    width: '100%',
+    width: "100%",
   },
 });
 
