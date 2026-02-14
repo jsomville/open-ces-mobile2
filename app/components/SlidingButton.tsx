@@ -1,47 +1,82 @@
-import React, { useRef, useState } from 'react';
-import { Animated, PanResponder, View, Text, StyleSheet, ViewStyle } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Animated, PanResponder, View, Text, ViewStyle } from 'react-native';
 
-import type { ViewProps } from 'react-native';
+import type { LayoutChangeEvent, ViewProps } from 'react-native';
+import globalStyles from '../globalStyles';
 
 interface SlidingButtonProps extends ViewProps {
   onConfirm?: () => void;
 }
 
+const label = 'Slide to confirm';
+
 const SlidingButton: React.FC<SlidingButtonProps> = ({
   style,
   onConfirm,
+  onLayout,
   ...rest
 }) => {
-  // Default values
-  const width = 300;
-  const height = 60;
-  const borderRadius = 30;
-  const backgroundColor = '#e0e0e0';
-  const sliderColor = '#4caf50';
-  const label = 'Slide to confirm';
-  const labelColor = '#333';
+  const [containerWidth, setContainerWidth] = useState(0);
+  const [containerHeight, setContainerHeight] = useState(0);
+  const maxSlideRef = useRef(0);
+
   const [confirmed, setConfirmed] = useState(false);
+  const confirmedRef = useRef(false);
+  const onConfirmRef = useRef(onConfirm);
   const pan = useRef(new Animated.Value(0)).current;
-  const maxSlide = width - height;
+  
+
+  useEffect(() => {
+    onConfirmRef.current = onConfirm;
+  }, [onConfirm]);
+
+  useEffect(() => {
+    maxSlideRef.current = Math.max(containerWidth - containerHeight, 0);
+    pan.setValue(0);
+    confirmedRef.current = false;
+    setConfirmed(false);
+  }, [containerWidth, containerHeight, pan]);
+
+  const handleLayout = (event: LayoutChangeEvent) => {
+    onLayout?.(event);
+    setContainerWidth(event.nativeEvent.layout.width);
+    setContainerHeight(event.nativeEvent.layout.height);
+  };
 
   const panResponder = useRef(
     PanResponder.create({
       onMoveShouldSetPanResponder: (_, gestureState) => Math.abs(gestureState.dx) > 5,
       onPanResponderMove: (_, gestureState) => {
-        if (!confirmed) {
+        if (!confirmedRef.current) {
+          const maxSlide = maxSlideRef.current;
+          if (maxSlide <= 0) {
+            return;
+          }
           let newX = Math.max(0, Math.min(gestureState.dx, maxSlide));
           pan.setValue(newX);
         }
       },
       onPanResponderRelease: (_, gestureState) => {
+        const maxSlide = maxSlideRef.current;
+        if (maxSlide <= 0) {
+          return;
+        }
         if (gestureState.dx > maxSlide * 0.9) {
           Animated.timing(pan, {
             toValue: maxSlide,
             duration: 150,
             useNativeDriver: false,
           }).start(() => {
+            confirmedRef.current = true;
             setConfirmed(true);
-            onConfirm && onConfirm();
+            onConfirmRef.current?.();
+            Animated.spring(pan, {
+              toValue: 0,
+              useNativeDriver: false,
+            }).start(() => {
+              confirmedRef.current = false;
+              setConfirmed(false);
+            });
           });
         } else {
           Animated.spring(pan, {
@@ -56,22 +91,20 @@ const SlidingButton: React.FC<SlidingButtonProps> = ({
   return (
     <View
       style={[
-        styles.container,
-        { width, height, borderRadius, backgroundColor },
+        globalStyles.slideButtonContainer,
         style,
       ]}
+      onLayout={handleLayout}
       {...rest}
     >
-      <Text style={[styles.label, { color: labelColor }]}>{label}</Text>
+      <Text style={[globalStyles.slideButtonLabel]}>{label}</Text>
       <Animated.View
         {...panResponder.panHandlers}
         style={[
-          styles.slider,
+          globalStyles.slideButtonSlider,
           {
-            width: height,
-            height,
-            borderRadius,
-            backgroundColor: sliderColor,
+            width: containerHeight,
+            height: containerHeight,
             transform: [{ translateX: pan }],
           } as ViewStyle,
         ]}
@@ -79,32 +112,5 @@ const SlidingButton: React.FC<SlidingButtonProps> = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    backgroundColor: '#e0e0e0',
-    overflow: 'hidden',
-  },
-  label: {
-    position: 'absolute',
-    alignSelf: 'center',
-    fontSize: 18,
-    fontWeight: 'bold',
-    zIndex: 1,
-  },
-  slider: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-  },
-});
 
 export default SlidingButton;

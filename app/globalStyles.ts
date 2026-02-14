@@ -61,6 +61,7 @@ const globalStyles = StyleSheet.create({
     justifyContent: "space-between",
     padding: 5,
     margin: 5,
+    width: "100%",
   },
   transactionLogContainer: {
     width: "100%",
@@ -328,6 +329,37 @@ const globalStyles = StyleSheet.create({
     flex: 1,
     width: "100%",
   },
+  slideButtonContainer:{
+    justifyContent: 'center',
+    backgroundColor: '#e0e0e0',
+    overflow: 'hidden',
+    borderRadius: 25,
+    height: 50,
+    width: '100%',
+    minWidth: 200,
+  },
+  slideButtonLabel:{
+    position: 'absolute',
+    alignSelf: 'center',
+    fontSize: 18,
+    fontWeight: 'bold',
+    zIndex: 1,
+    color: '#000',
+  },
+  slideButtonSlider :  {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 2,
+    shadowColor: '#000',
+    backgroundColor: '#4cb1a8',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    borderRadius: 30,
+  }
 });
 
 export default globalStyles;

@@ -38,7 +38,7 @@ const SendScreen = () => {
   const [sendToEmail, setSendToEmail] = useState(jane_info.email);
   const [sendToPhone, setSendToPhone] = useState(jane_info.phone);
   const [sendToAccount, setSendToAccount] = useState(jane_info.account);
-  const [amount, setAmount] = useState("1.01");
+  const [amount, setAmount] = useState("0");
   const [accountBalance, setAccountBalance] = useState(0);
   const [isEmailBox_visible, setIsEmailBox_visible] = useState(false);
   const [isPhoneBox_visible, setIsPhoneBox_visible] = useState(false);
@@ -297,45 +297,16 @@ const SendScreen = () => {
             />
           )}
         </View>
-        <View>
-          <TouchableOpacity
-            style={globalStyles.roundedButton}
-            onPress={() => {
-              console.log('Standard Button pressed');
-              console.log('State values:', {
-                sendToEmail,
-                sendToPhone,
-                sendToAccount,
-                amount,
-                accountBalance,
-                isEmailBox_visible,
-                isPhoneBox_visible,
-                isAccountBox_visible,
-              });
-              confirmSend();
-            }}
-          >
-            <Text>Send now</Text>
-          </TouchableOpacity>
+        <View style={globalStyles.rowContainerWbackground}>
+
           <SlidingButton
             onConfirm={() => {
-              console.log('SlidingButton pressed');
-              console.log('State values:', {
-                sendToEmail,
-                sendToPhone,
-                sendToAccount,
-                amount,
-                accountBalance,
-                isEmailBox_visible,
-                isPhoneBox_visible,
-                isAccountBox_visible,
-              });
               confirmSend();
             }}
-          ></SlidingButton>
+          />
         </View>
       </View>
-      // Test buttons to quickly fill in recipient details
+     
       <View>
         <View style={globalStyles.columnContainer}>
           <TouchableOpacity
