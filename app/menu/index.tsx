@@ -14,7 +14,6 @@ import {
 import {
   fetchCurrency,
   fetchUserDetails,
-  performLogout,
 } from "../../services/controller";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";

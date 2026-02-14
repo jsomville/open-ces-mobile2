@@ -16,6 +16,7 @@ import {
   sendTo,
 } from "../../services/controller";
 import globalStyles from "../globalStyles";
+import SlidingButton from "../components/SlidingButton";
 
 const currencyLogo = require("../../assets/images/currency.png");
 
@@ -31,7 +32,7 @@ const jane_info = {
   account: "244-0040-00004",
 };
 
-const debug_this_ui = false;
+const debug_this_ui = true;
 
 const SendScreen = () => {
   const [sendToEmail, setSendToEmail] = useState(jane_info.email);
@@ -105,7 +106,7 @@ const SendScreen = () => {
     if (!accountNumber) {
       Alert.alert(
         "Invalid Recipient",
-        "Could not find account for the provided recipient details."
+        "Could not find account for the provided recipient details.",
       );
       return;
     }
@@ -125,11 +126,18 @@ const SendScreen = () => {
     }
 
     const amountValue = parseFloat(amount);
+    if (debug_this_ui) {
+      console.log("send.tsx - Parsed amount value:", amountValue);
+    }
+
+     if (debug_this_ui) {
+      console.log("send.tsx - Current account balance:", accountBalance);
+    }
 
     if (isNaN(amountValue) || amountValue <= 0) {
       Alert.alert(
         "Invalid Amount",
-        "Please enter a valid amount greater than zero."
+        "Please enter a valid amount greater than zero.",
       );
       return;
     }
@@ -137,7 +145,7 @@ const SendScreen = () => {
     if (amountValue > accountBalance) {
       Alert.alert(
         "Insufficient Funds",
-        "You do not have enough balance to complete this transaction."
+        "You do not have enough balance to complete this transaction.",
       );
       return;
     }
@@ -148,8 +156,8 @@ const SendScreen = () => {
         isAccountBox_visible
           ? sendToAccount
           : isEmailBox_visible
-          ? sendToEmail
-          : sendToPhone
+            ? sendToEmail
+            : sendToPhone
       }?`,
       [
         {
@@ -160,7 +168,7 @@ const SendScreen = () => {
           text: "Send",
           onPress: () => sendAction(),
         },
-      ]
+      ],
     );
   };
 
@@ -289,16 +297,45 @@ const SendScreen = () => {
             />
           )}
         </View>
-        <View></View>
-        <TouchableOpacity
-          style={globalStyles.roundedButton}
-          onPress={() => {
-            confirmSend();
-          }}
-        >
-          <Text>Send now</Text>
-        </TouchableOpacity>
+        <View>
+          <TouchableOpacity
+            style={globalStyles.roundedButton}
+            onPress={() => {
+              console.log('Standard Button pressed');
+              console.log('State values:', {
+                sendToEmail,
+                sendToPhone,
+                sendToAccount,
+                amount,
+                accountBalance,
+                isEmailBox_visible,
+                isPhoneBox_visible,
+                isAccountBox_visible,
+              });
+              confirmSend();
+            }}
+          >
+            <Text>Send now</Text>
+          </TouchableOpacity>
+          <SlidingButton
+            onConfirm={() => {
+              console.log('SlidingButton pressed');
+              console.log('State values:', {
+                sendToEmail,
+                sendToPhone,
+                sendToAccount,
+                amount,
+                accountBalance,
+                isEmailBox_visible,
+                isPhoneBox_visible,
+                isAccountBox_visible,
+              });
+              confirmSend();
+            }}
+          ></SlidingButton>
+        </View>
       </View>
+      // Test buttons to quickly fill in recipient details
       <View>
         <View style={globalStyles.columnContainer}>
           <TouchableOpacity

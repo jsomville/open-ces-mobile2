@@ -86,7 +86,6 @@ const LoginScreen = () => {
       const result = await login(username, password);
 
       if (result.status === 200) {
-        
         // Clear sync storage
         await AsyncStorage.clear();
 
@@ -132,7 +131,6 @@ const LoginScreen = () => {
         setPassword(lastPassword);
         setSavePassword(true);
       }
-
     } catch (error) {
       console.error("Error retrieving last login:", error);
     }
@@ -214,6 +212,7 @@ const LoginScreen = () => {
               keyboardType="email-address"
             />
           </View>
+
           <View>
             <Text style={globalStyles.label}>Password</Text>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -234,7 +233,7 @@ const LoginScreen = () => {
               </TouchableOpacity>
             </View>
           </View>
-          <View style={{ alignItems: 'center' }}>
+          <View style={{ alignItems: "center" }}>
             <View style={globalStyles.checkBoxContainer}>
               <Checkbox
                 value={savePassword}
