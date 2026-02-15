@@ -1,11 +1,9 @@
 import { router } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import globalStyles from "../globalStyles";
-import config from "../config";
 
 const debug_this_ui = false;
 const button_size = 40;
@@ -14,11 +12,12 @@ import { performLogout } from "../../services/controller";
 
 const MoreScreen = () => {
   // Fetch details on component mount
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   return (
     <View style={globalStyles.mainContainer}>
       <View style={globalStyles.actionButtonContainer}>
+
         <View style={globalStyles.buttonContainer}>
           <TouchableOpacity
             style={globalStyles.actionButton}
@@ -48,6 +47,7 @@ const MoreScreen = () => {
           </TouchableOpacity>
           <Text>User Info</Text>
         </View>
+
         <View style={globalStyles.buttonContainer}>
           <TouchableOpacity
             style={globalStyles.actionButton}
@@ -63,7 +63,38 @@ const MoreScreen = () => {
           <Text>Link this app</Text>
         </View>
       </View>
+
       <View style={globalStyles.actionButtonContainer}>
+        <View style={globalStyles.buttonContainer}>
+          <TouchableOpacity
+            style={globalStyles.actionButton}
+            onPress={() => {
+              if (debug_this_ui) {
+                console.log("more.tsx - Menu - Contacts");
+              }
+              router.push("/menu/contacts");
+            }}
+          >
+            <MaterialIcons name="contacts" color="black" size={button_size} />
+          </TouchableOpacity>
+          <Text>Contacts</Text>
+        </View>
+
+         <View style={globalStyles.buttonContainer}>
+          <TouchableOpacity
+            style={globalStyles.actionButton}
+            onPress={() => {
+              if (debug_this_ui) {
+                console.log("more.tsx - Menu - Merchants");
+              }
+              router.push("/menu/merchant");
+            }}
+          >
+            <MaterialIcons name="store" color="black" size={button_size} />
+          </TouchableOpacity>
+          <Text>Merchants</Text>
+        </View>
+
         <View style={globalStyles.buttonContainer}>
           <TouchableOpacity
             style={globalStyles.actionButton}
@@ -79,6 +110,7 @@ const MoreScreen = () => {
           <Text>Logout</Text>
         </View>
       </View>
+
     </View>
   );
 };

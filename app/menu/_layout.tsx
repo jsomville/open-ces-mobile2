@@ -66,10 +66,31 @@ const MenuLayout = () => {
           headerShown: true,
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="linkThisApp"
         options={{
           title: "Link to this App",
+          headerShown: true,
+        }}
+      />
+      <Stack.Screen
+        name="oneTransaction"
+        options={{
+          title: "Transaction Details",
+          headerShown: true,
+        }}
+      />
+      <Stack.Screen
+        name="contacts"
+        options={{
+          title: "Contact",
+          headerShown: true,
+        }}
+      />
+      <Stack.Screen
+        name="merchants"
+        options={{
+          title: "Merchants",
           headerShown: true,
         }}
       />
