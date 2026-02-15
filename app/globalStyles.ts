@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 import config from "./config";
-import { unmountApplicationComponentAtRootTag } from "react-native/types_generated/Libraries/ReactNative/AppRegistryImpl";
 
 const globalStyles = StyleSheet.create({
   mainContainer: {
