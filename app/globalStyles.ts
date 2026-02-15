@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import config from "./config";
+import { unmountApplicationComponentAtRootTag } from "react-native/types_generated/Libraries/ReactNative/AppRegistryImpl";
 
 const globalStyles = StyleSheet.create({
   mainContainer: {
@@ -292,12 +293,13 @@ const globalStyles = StyleSheet.create({
   },
   transactionAmountContainer: {
     flex: 1,
-    justifyContent: "center", // Vertically center the amount
+    justifyContent: "flex-end", // Vertically center the amount
     alignItems: "center", // Horizontally center the amount
     flexDirection: "row",
   },
   transactionAmount: {
     fontSize: 14,
+    alignContent: "space-between",
   },
   smallButton: {
     backgroundColor: config.primaryColor,
