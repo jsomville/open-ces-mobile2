@@ -2,6 +2,14 @@ import { StyleSheet } from "react-native";
 import config from "./config";
 
 const globalStyles = StyleSheet.create({
+  mainContainer: {
+    padding: 10,
+    marginTop: 5,
+    backgroundColor: config.backgroundColor,
+    flex: 1,
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
   loginContainer: {
     paddingTop: 160,
     marginTop: 30,
@@ -16,19 +24,12 @@ const globalStyles = StyleSheet.create({
     backgroundColor: config.backgroundColor,
     flex: 1,
   },
-  mainContainer: {
-    padding: 10,
-    marginTop: 5,
-    backgroundColor: config.backgroundColor,
-    flex: 1,
-    justifyContent: "flex-start",
-    alignItems: "center",
-  },
+
   footerContainer: {
     flex: 1,
     backgroundColor: "darkGray",
     justifyContent: "flex-end",
-    marginBottom: 20,
+    marginBottom: 25,
   },
 
   menuHeaderContainer: {
@@ -36,7 +37,7 @@ const globalStyles = StyleSheet.create({
     alignItems: "center",
     padding: 5,
     margin: 5,
-    alignSelf: "center",
+    alignSelf: "stretch",
     backgroundColor: config.secondaryColor,
     borderRadius: 20,
   },
@@ -46,6 +47,11 @@ const globalStyles = StyleSheet.create({
     justifyContent: "center",
     padding: 5,
     margin: 5,
+  },
+  smallColumnContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
   rowContainer: {
     flexDirection: "column",
@@ -59,9 +65,9 @@ const globalStyles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-between",
+    alignSelf: "stretch",
     padding: 5,
     margin: 5,
-    width: "100%",
   },
   transactionLogContainer: {
     width: "100%",
@@ -149,9 +155,7 @@ const globalStyles = StyleSheet.create({
     margin: 10,
     backgroundColor: config.primaryColor,
   },
-  clearButton: {
-    margin: 10,
-  },
+
   roundedButton: {
     margin: 10,
     backgroundColor: config.primaryColor,
@@ -300,6 +304,7 @@ const globalStyles = StyleSheet.create({
     paddingHorizontal: 8,
     borderRadius: 4,
     margin: 5,
+    color: "white",
   },
   smallTestButton: {
     backgroundColor: "red",
@@ -329,7 +334,7 @@ const globalStyles = StyleSheet.create({
     flex: 1,
     width: "100%",
   },
-  slideButtonContainer:{
+  slideButtonContainer: {
     justifyContent: 'center',
     backgroundColor: '#e0e0e0',
     overflow: 'hidden',
@@ -338,7 +343,7 @@ const globalStyles = StyleSheet.create({
     width: '100%',
     minWidth: 200,
   },
-  slideButtonLabel:{
+  slideButtonLabel: {
     position: 'absolute',
     alignSelf: 'center',
     fontSize: 18,
@@ -346,7 +351,7 @@ const globalStyles = StyleSheet.create({
     zIndex: 1,
     color: '#000',
   },
-  slideButtonSlider :  {
+  slideButtonSlider: {
     position: 'absolute',
     left: 0,
     top: 0,
