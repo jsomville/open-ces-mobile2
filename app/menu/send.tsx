@@ -17,6 +17,7 @@ import {
 } from "../../services/controller";
 import globalStyles from "../globalStyles";
 import SlidingButton from "../components/SlidingButton";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const currencyLogo = require("../../assets/images/currency.png");
 
@@ -32,7 +33,9 @@ const jane_info = {
   account: "244-0040-00004",
 };
 
-const debug_this_ui = true;
+const button_size = 40;
+
+const debug_this_ui = false;
 
 const SendScreen = () => {
   const [sendToEmail, setSendToEmail] = useState(jane_info.email);
@@ -43,6 +46,17 @@ const SendScreen = () => {
   const [isEmailBox_visible, setIsEmailBox_visible] = useState(false);
   const [isPhoneBox_visible, setIsPhoneBox_visible] = useState(false);
   const [isAccountBox_visible, setIsAccountBox_visible] = useState(true);
+
+  const sanitizeAmount = (text: string) => {
+    const cleaned = text.replace(/,/g, ".").replace(/[^0-9.]/g, "");
+    const parts = cleaned.split(".");
+
+    if (parts.length <= 1) {
+      return cleaned;
+    }
+
+    return `${parts[0]}.${parts.slice(1).join("")}`;
+  };
 
   const fetchDetails = async () => {
     if (debug_this_ui) {
@@ -130,7 +144,7 @@ const SendScreen = () => {
       console.log("send.tsx - Parsed amount value:", amountValue);
     }
 
-     if (debug_this_ui) {
+    if (debug_this_ui) {
       console.log("send.tsx - Current account balance:", accountBalance);
     }
 
@@ -152,12 +166,11 @@ const SendScreen = () => {
 
     Alert.alert(
       "Confirm Send",
-      `Are you sure you want to send ${amount} to ${
-        isAccountBox_visible
-          ? sendToAccount
-          : isEmailBox_visible
-            ? sendToEmail
-            : sendToPhone
+      `Are you sure you want to send ${amount} to ${isAccountBox_visible
+        ? sendToAccount
+        : isEmailBox_visible
+          ? sendToEmail
+          : sendToPhone
       }?`,
       [
         {
@@ -179,39 +192,47 @@ const SendScreen = () => {
 
   return (
     <View style={globalStyles.mainContainer}>
-      <View style={globalStyles.menuHeaderContainer}>
-        <View style={globalStyles.rowContainerWbackground}>
-          <View style={globalStyles.columnContainer}>
-            <Text style={globalStyles.amount_display_text}>Send : </Text>
-            <TextInput
-              placeholder="0.00"
-              style={globalStyles.amount_input_text}
-              value={amount}
-              onChangeText={setAmount}
-              onFocus={() => setAmount("")}
-              autoCapitalize="none"
-              keyboardType="numeric"
-            />
-            <Image
-              source={currencyLogo}
-              style={globalStyles.amount_unit_image}
-            />
-          </View>
-
-          <View style={globalStyles.columnContainer}>
-            <Text>Current balance : {accountBalance}</Text>
-            <Image source={currencyLogo} style={globalStyles.small_image} />
-            <TouchableOpacity
-              style={globalStyles.smallButton}
-              onPress={() => {
-                setAmount(accountBalance.toString());
-              }}
-            >
-              <Text style={{ color: "white", fontSize: 12 }}>MAX</Text>
-            </TouchableOpacity>
-          </View>
+      <View style={globalStyles.rowContainer}>
+        <View style={globalStyles.columnContainer}>
+          <Text style={globalStyles.amount_display_text}>Amount : </Text>
+          <TextInput
+            placeholder="0.00"
+            style={globalStyles.amount_input_text}
+            value={amount}
+            onChangeText={(text) => setAmount(sanitizeAmount(text))}
+            onFocus={() => setAmount("")}
+            autoCapitalize="none"
+            keyboardType="decimal-pad"
+            maxLength={7}
+          />
+          <Image
+            source={currencyLogo}
+            style={globalStyles.amount_unit_image}
+          />
         </View>
 
+        <View style={globalStyles.columnContainer}>
+          <Text>Current balance : {accountBalance}</Text>
+          <Image source={currencyLogo} style={globalStyles.small_image} />
+          <TouchableOpacity
+            style={globalStyles.smallButton}
+            onPress={() => {
+              setAmount(accountBalance.toString());
+            }}
+          >
+            <View style={globalStyles.smallColumnContainer}>
+              <Text>set</Text>
+              <MaterialIcons
+                name="done"
+                color="black"
+                size={20}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      <View style={globalStyles.menuHeaderContainer}>
         <View style={globalStyles.rowContainerWbackground}>
           <View style={globalStyles.columnContainer}>
             <TouchableOpacity
@@ -229,7 +250,11 @@ const SendScreen = () => {
                 setIsPhoneBox_visible(false);
               }}
             >
-              <Text>Account #</Text>
+              <MaterialIcons
+                name="badge"
+                color="black"
+                size={button_size}
+              />
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -246,7 +271,11 @@ const SendScreen = () => {
                 setIsPhoneBox_visible(false);
               }}
             >
-              <Text>Email</Text>
+              <MaterialIcons
+                name="email"
+                color="black"
+                size={button_size}
+              />
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -263,7 +292,11 @@ const SendScreen = () => {
                 setIsPhoneBox_visible(true);
               }}
             >
-              <Text>Phone</Text>
+              <MaterialIcons
+                name="phone"
+                color="black"
+                size={button_size}
+              />
             </TouchableOpacity>
           </View>
           {isAccountBox_visible && (
@@ -297,16 +330,16 @@ const SendScreen = () => {
             />
           )}
         </View>
-        <View style={globalStyles.rowContainerWbackground}>
 
-          <SlidingButton
-            onConfirm={() => {
-              confirmSend();
-            }}
-          />
-        </View>
       </View>
-     
+      <View style={globalStyles.rowContainer}>
+        <SlidingButton
+          onConfirm={() => {
+            confirmSend();
+          }}
+        />
+      </View>
+
       <View>
         <View style={globalStyles.columnContainer}>
           <TouchableOpacity
