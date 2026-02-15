@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 
 import { fetchTransaction } from "../../services/controller";
 import Transaction from "../components/Transaction";
@@ -39,7 +39,7 @@ const TransactionsScreen = () => {
   }, []);
 
   return (
-    <View style={globalStyles.mainContainer}>
+    <ScrollView style={globalStyles.transactionScrollViewContainer}>
       {Array.isArray(transactionsList) && transactionsList.length > 0 ? (
         transactionsList.map((transaction: any, index: number) => (
           <Transaction
@@ -53,7 +53,7 @@ const TransactionsScreen = () => {
       ) : (
         <Text>No transactions available.</Text>
       )}
-    </View>
+    </ScrollView>
   );
 };
 

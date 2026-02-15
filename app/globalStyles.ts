@@ -24,6 +24,11 @@ const globalStyles = StyleSheet.create({
     backgroundColor: config.backgroundColor,
     flex: 1,
   },
+  transactionScrollViewContainer: {
+    padding: 10,
+    backgroundColor: config.backgroundColor,
+    flex: 1,
+  },
 
   footerContainer: {
     flex: 1,
