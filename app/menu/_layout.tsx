@@ -88,7 +88,7 @@ const MenuLayout = () => {
         }}
       />
       <Stack.Screen
-        name="merchants"
+        name="merchant"
         options={{
           title: "Merchants",
           headerShown: true,
