@@ -83,7 +83,7 @@ const MenuLayout = () => {
       <Stack.Screen
         name="contacts"
         options={{
-          title: "Contact",
+          title: "Contacts",
           headerShown: true,
         }}
       />
